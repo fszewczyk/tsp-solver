@@ -4,7 +4,7 @@ import { Cities } from './Cities';
 import { createCities } from './Solver';
 
 function Options(props) {
-    const { map, setMap, cities, setCities, setNewCities, iterations, setIterations, algo, setAlgo } = props;
+    const { map, setMap, cities, setCities, setNewCities, iterations, setIterations, algo, setAlgo, run } = props;
     return (
         <>
             <Typography variant='h3' align='center'>
@@ -22,7 +22,8 @@ function Options(props) {
                 <MenuItem value="simulated-annealing">Simulated Annealing</MenuItem>
                 <MenuItem value="genetic">Genetic</MenuItem>
             </Select>
-            <Button onClick={() => setNewCities(cities)}>Run</Button>
+            <Button onClick={() => setNewCities(cities)}>Create cities</Button>
+            <Button onClick={() => run()}>Run</Button>
         </>
     )
 }
