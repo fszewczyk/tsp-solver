@@ -26,3 +26,7 @@ export class Path {
     }
 
 }
+
+export function createPath(amount, map, path = undefined) {
+    return new Path(amount, map, path);
+}

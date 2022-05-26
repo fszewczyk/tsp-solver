@@ -8,3 +8,7 @@ export class Cities {
         }
     }
 }
+
+export function createCities(amount) {
+    return new Cities(amount);
+}
