@@ -93,7 +93,7 @@ function App() {
       history[i] = minDistance;
       setDistanceHistory(history);
 
-      await wait(100);
+      await wait(60);
     }
     setTempPath(undefined);
   }

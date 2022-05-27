@@ -32,6 +32,11 @@ canvas{
   color:white !important;
 }
 
+#create, #run, #reset{
+  height: 4.2em;
+  margin-left: 0.5em;
+}
+
 .modebar-container{
   display: none !important;
 }

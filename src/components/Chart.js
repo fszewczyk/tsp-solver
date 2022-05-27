@@ -33,7 +33,6 @@ function Chart(props) {
             showgrid: false,
             title: "Iterations",
             rangemode: 'nonnegative',
-            autorange: true,
             fixedrange: true
         },
         yaxis: {
@@ -41,7 +40,6 @@ function Chart(props) {
             showgrid: false,
             title: "Shortest path",
             rangemode: 'nonegative',
-            autorange: true,
             fixedrange: true
         },
         paper_bgcolor: 'rgba(0,0,0,0)',
