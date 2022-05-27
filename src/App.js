@@ -7,7 +7,7 @@ import Visual from './components/Visual';
 import Options from './components/Options';
 import Chart from './components/Chart';
 import { useState } from 'react';
-import { createPath } from './components/Path';
+import { createPath, distance } from './components/Path';
 import { createCities } from './components/Cities';
 
 function App() {
@@ -32,6 +32,45 @@ function App() {
 
   const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
+  const greedySolver = async (map) => {
+    const getClosestCity = (cities, idx, path) => {
+      let minDistance = Infinity;
+      let minIdx = null;
+      for (let i = 0; i < cities.length; i++) {
+        if (path.includes(i))
+          continue;
+        let d = distance(cities[i], cities[idx]);
+        if (d < minDistance) {
+          minDistance = d;
+          minIdx = i;
+        }
+      }
+      return minIdx;
+    }
+
+    setDistanceHistory(Array(map.cities.length));
+    let minDistance = Infinity;
+    for (let i = 0; i < map.cities.length; i++) {
+      let steps = Array(map.cities.length).fill(-1);
+      steps[0] = i;
+      for (let j = 1; j < map.cities.length; j++) {
+        let closestIdx = getClosestCity(map.cities, steps[j - 1], steps);
+        steps[j] = closestIdx;
+      }
+      let path = createPath(map.cities.length, map.cities, steps);
+      setTempPath(path);
+      if (path.distance < minDistance) {
+        minDistance = path.distance;
+        setPath(path);
+      }
+      let history = distanceHistory;
+      history[i] = minDistance;
+      setDistanceHistory(history);
+
+      await wait(100);
+    }
+  }
+
   const randomSolver = async (map, iterations) => {
     setDistanceHistory(Array(iterations));
     let length = map.cities.length;
@@ -54,8 +93,13 @@ function App() {
   }
 
   const Run = (algo, iterations, map) => {
+    setPath(undefined);
+    setTempPath(undefined);
+    setDistanceHistory(Array());
     if (algo == "random") {
       randomSolver(map, iterations);
+    } else if (algo == "greedy") {
+      greedySolver(map);
     }
   }
 

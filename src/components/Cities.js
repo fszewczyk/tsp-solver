@@ -1,14 +1,18 @@
 export class Cities {
-    constructor(amount) {
-        this.cities = Array(amount);
-        for (let i = 0; i < amount; i++) {
-            let x = Math.random();
-            let y = Math.random();
-            this.cities[i] = [x, y];
+    constructor(amount, cities) {
+        if (cities == undefined) {
+            this.cities = Array(amount);
+            for (let i = 0; i < amount; i++) {
+                let x = Math.random();
+                let y = Math.random();
+                this.cities[i] = [x, y];
+            }
+        } else {
+            this.cities = cities;
         }
     }
 }
 
-export function createCities(amount) {
-    return new Cities(amount);
+export function createCities(amount, cities = undefined) {
+    return new Cities(amount, cities);
 }

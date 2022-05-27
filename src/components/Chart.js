@@ -23,7 +23,7 @@ function Chart(props) {
         margin: {
             l: 40,
             t: 20,
-            b: 30,
+            b: 40,
         },
         xaxis: {
             color: 'white',
@@ -37,7 +37,7 @@ function Chart(props) {
             color: 'white',
             showgrid: false,
             title: "Shortest path",
-            rangemode: 'nonnegative',
+            rangemode: 'nonegative',
             autorange: true,
             fixedrange: true
         },

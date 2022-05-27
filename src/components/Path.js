@@ -1,3 +1,7 @@
+export function distance(a, b) {
+    return Math.sqrt(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2));
+}
+
 export class Path {
     constructor(length, cities, path = undefined) {
         this.length = length;
@@ -18,9 +22,7 @@ export class Path {
 
         this.distance = 0;
         for (let i = 1; i < this.path.length; i++) {
-            let d = Math.pow(cities[this.path[i]][0] - cities[this.path[i - 1]][0], 2);
-            d += Math.pow(cities[this.path[i]][1] - cities[this.path[i - 1]][1], 2);
-            d = Math.sqrt(d);
+            let d = distance(cities[this.path[i]], cities[this.path[i - 1]]);
             this.distance += d;
         }
     }
