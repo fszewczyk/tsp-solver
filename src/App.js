@@ -9,6 +9,7 @@ import Chart from './components/Chart';
 import { useState } from 'react';
 import { createPath, distance } from './components/Path';
 import { createCities } from './components/Cities';
+import { useEffect } from 'react';
 
 function App() {
   const defaultCities = 8;
@@ -28,6 +29,16 @@ function App() {
     setTempPath(undefined);
     setDistanceHistory(Array());
     setMap(createCities(amount));
+    document.getElementById("run").style.display = "inline";
+    document.getElementById("reset").style.display = "none";
+  }
+
+  const Reset = () => {
+    setPath(undefined);
+    setTempPath(undefined);
+    setDistanceHistory(Array());
+    document.getElementById("run").style.display = "inline";
+    document.getElementById("reset").style.display = "none";
   }
 
   const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
@@ -72,7 +83,6 @@ function App() {
   }
 
   const randomSolver = async (map, iterations) => {
-    setDistanceHistory(Array(iterations));
     let length = map.cities.length;
     let minDistance = Infinity;
     for (let i = 0; i < iterations; i++) {
@@ -92,14 +102,13 @@ function App() {
     setTempPath(undefined);
   }
 
-  const Run = (algo, iterations, map) => {
-    setPath(undefined);
-    setTempPath(undefined);
-    setDistanceHistory(Array());
+  const Run = async (algo, iterations, map) => {
+    document.getElementById("run").style.display = "none";
+    document.getElementById("reset").style.display = "inline";
     if (algo == "random") {
-      randomSolver(map, iterations);
+      await randomSolver(map, iterations);
     } else if (algo == "greedy") {
-      greedySolver(map);
+      await greedySolver(map);
     }
   }
 
@@ -111,7 +120,7 @@ function App() {
             <Visual map={map} path={path} tempPath={tempPath} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Options map={map} setMap={setMap} cities={cities} setCities={setCities} setNewCities={setNewCities} iterations={iterations} setIterations={setIterations} algo={algo} setAlgo={setAlgo} run={Run} />
+            <Options map={map} setMap={setMap} cities={cities} setCities={setCities} setNewCities={setNewCities} iterations={iterations} setIterations={setIterations} algo={algo} setAlgo={setAlgo} run={Run} reset={Reset} />
             <Chart history={distanceHistory} />
           </Grid>
         </Grid>

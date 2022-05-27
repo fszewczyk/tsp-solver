@@ -2,7 +2,7 @@ import { Button, ButtonGroup, FormControl, InputLabel, MenuItem, Select, Slider,
 import React, { useState } from 'react'
 
 function Options(props) {
-    const { map, setMap, cities, setCities, setNewCities, iterations, setIterations, algo, setAlgo, run, stop } = props;
+    const { map, setMap, cities, setCities, setNewCities, iterations, setIterations, algo, setAlgo, run, stop, reset } = props;
     return (
         <>
             <Typography variant='h3' align='center'>
@@ -20,8 +20,9 @@ function Options(props) {
                 <MenuItem value="simulated-annealing">Simulated Annealing</MenuItem>
                 <MenuItem value="genetic">Genetic</MenuItem>
             </Select>
-            <Button onClick={() => setNewCities(cities)}>Create cities</Button>
-            <Button onClick={() => run(algo, iterations, map)}>Run</Button>
+            <Button id="create" onClick={() => setNewCities(cities)}>Create cities</Button>
+            <Button id="run" onClick={() => run(algo, iterations, map)}>Run</Button>
+            <Button id="reset" onClick={() => reset()}>Reset</Button>
         </>
     )
 }

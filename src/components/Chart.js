@@ -1,8 +1,11 @@
 import React from 'react'
+import { useState } from 'react';
 import Plot from 'react-plotly.js';
 
 function Chart(props) {
     const { history } = props;
+
+    let [lastFirst, setLastFirst] = useState();
 
     let data;
     if (history != undefined) {
