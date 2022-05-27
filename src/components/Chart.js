@@ -24,7 +24,7 @@ function Chart(props) {
         width: 400,
         height: 200,
         margin: {
-            l: 40,
+            l: 50,
             t: 20,
             b: 40,
         },

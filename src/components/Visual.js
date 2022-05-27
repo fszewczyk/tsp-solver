@@ -6,7 +6,7 @@ function Visual(props) {
 
     const draw = (ctx, map, path, tempPath) => {
         ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
-        ctx.fillStyle = '#ffffff'
+        ctx.fillStyle = '#fff'
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
         if (map != undefined) {
             map.cities.forEach(element => {
@@ -15,13 +15,14 @@ function Visual(props) {
 
                 ctx.beginPath();
                 ctx.arc(x, y, cityRadius, 0, 2 * Math.PI, false);
-                ctx.fillStyle = 'green';
+                ctx.fillStyle = '#355C7D';
                 ctx.fill();
             });
         }
         if (map != undefined && tempPath != undefined && tempPath.path != undefined) {
             ctx.moveTo(map.cities[0][0], map.cities[0][1]);
-            ctx.strokeStyle = '#eee'
+            ctx.strokeStyle = '#ffceba'
+            ctx.lineWidth = 1;
             ctx.beginPath();
             for (let i = 0; i < tempPath.length; i++) {
                 if (map.length <= i) {
@@ -36,7 +37,8 @@ function Visual(props) {
         }
         if (map != undefined && path != undefined && path.path != undefined) {
             ctx.moveTo(map.cities[0][0], map.cities[0][1]);
-            ctx.strokeStyle = 'black'
+            ctx.strokeStyle = '#F67280'
+            ctx.lineWidth = 2;
             ctx.beginPath();
             for (let i = 0; i < path.length; i++) {
                 if (map.length <= i) {

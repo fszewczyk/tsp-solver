@@ -13,7 +13,7 @@ function Options(props) {
             <Typography>Number of iterations: {iterations}</Typography>
             <Slider aria-label="Iterations" valueLabelDisplay="off" value={iterations} min={5} max={300} onChange={(e, v) => setIterations(v)} />
             <Typography>Select algorithm</Typography>
-            <Select label="Algorithm" value={algo} onChange={(e, v) => setAlgo(e.target.value)} variant="filled">
+            <Select label="Algorithm" value={algo} onChange={(e, v) => setAlgo(e.target.value)} variant="outlined">
                 <MenuItem value="random">Random</MenuItem>
                 <MenuItem value="greedy">Greedy</MenuItem>
                 <MenuItem value="hill-climbing">Hill climbing</MenuItem>

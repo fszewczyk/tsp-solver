@@ -10,6 +10,21 @@ import { useState } from 'react';
 import { createPath, distance } from './components/Path';
 import { createCities } from './components/Cities';
 import { useEffect } from 'react';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: '#fff',
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: '#5f5',
+    },
+  },
+});
 
 function App() {
   const defaultCities = 8;
@@ -80,6 +95,7 @@ function App() {
 
       await wait(100);
     }
+    setTempPath(undefined);
   }
 
   const randomSolver = async (map, iterations) => {
@@ -113,19 +129,21 @@ function App() {
   }
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ bgcolor: '#7000ab' }}>
-        <Grid container spacing={2} padding={2}>
-          <Grid item xs={12} md={6}>
-            <Visual map={map} path={path} tempPath={tempPath} />
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="md" className="center">
+        <Box className="shadow">
+          <Grid container spacing={2} padding={2}>
+            <Grid item xs={12} md={6}>
+              <Visual map={map} path={path} tempPath={tempPath} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Options map={map} setMap={setMap} cities={cities} setCities={setCities} setNewCities={setNewCities} iterations={iterations} setIterations={setIterations} algo={algo} setAlgo={setAlgo} run={Run} reset={Reset} />
+              <Chart history={distanceHistory} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Options map={map} setMap={setMap} cities={cities} setCities={setCities} setNewCities={setNewCities} iterations={iterations} setIterations={setIterations} algo={algo} setAlgo={setAlgo} run={Run} reset={Reset} />
-            <Chart history={distanceHistory} />
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
 

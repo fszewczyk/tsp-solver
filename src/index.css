@@ -5,11 +5,31 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #6C5B7B;
+  color: #fff;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+canvas{
+  border-radius: 1em;
+}
+
+.center{
+  margin-top: 10vh;
+}
+
+.shadow{
+  box-shadow: 0 0 50px rgba(0,0,0,0.4);
+  background-color: #355C7D;
+  border-radius: 2em;
+}
+
+.MuiInputBase-input{
+  color:white !important;
 }
 
 .modebar-container{
