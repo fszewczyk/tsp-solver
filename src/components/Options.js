@@ -11,14 +11,14 @@ function Options(props) {
             <Typography>Number of cities: {cities}</Typography>
             <Slider aria-label="Cities" valueLabelDisplay="off" value={cities} min={3} max={25} onChange={(e, v) => setCities(v)} />
             <Typography>Number of iterations: {iterations}</Typography>
-            <Slider disabled={algo == "greedy"} aria-label="Iterations" valueLabelDisplay="off" value={iterations} min={5} max={300} onChange={(e, v) => setIterations(v)} />
+            <Slider disabled={algo == "greedy" || algo == "hill-climbing"} aria-label="Iterations" valueLabelDisplay="off" value={iterations} min={5} max={300} onChange={(e, v) => setIterations(v)} />
             <Typography>Select algorithm</Typography>
             <Grid container spacing={0} padding={0}>
                 <Grid item xs={12} md={6}>
                     <Select label="Algorithm" value={algo} onChange={(e, v) => setAlgo(e.target.value)} variant="outlined" fullWidth>
                         <MenuItem value="random">Random</MenuItem>
                         <MenuItem value="greedy">Greedy</MenuItem>
-                        <MenuItem disabled value="hill-climbing">Hill climbing</MenuItem>
+                        <MenuItem value="hill-climbing">Hill climbing</MenuItem>
                         <MenuItem disabled value="simulated-annealing">Simulated Annealing</MenuItem>
                         <MenuItem disabled value="genetic">Genetic</MenuItem>
                     </Select>

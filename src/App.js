@@ -7,7 +7,7 @@ import Visual from './components/Visual';
 import Options from './components/Options';
 import Chart from './components/Chart';
 import { useState } from 'react';
-import { createPath, distance } from './components/Path';
+import { createPath, distance, Path } from './components/Path';
 import { createCities } from './components/Cities';
 import { useEffect } from 'react';
 import { createTheme } from '@mui/material/styles';
@@ -62,7 +62,7 @@ function App() {
 
   const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-  const greedySolver = async (map) => {
+  const greedySolver = async () => {
     const getClosestCity = (cities, idx, path) => {
       let minDistance = Infinity;
       let minIdx = null;
@@ -102,7 +102,7 @@ function App() {
     setTempPath(undefined);
   }
 
-  const randomSolver = async (map, iterations) => {
+  const randomSolver = async () => {
     let length = map.cities.length;
     let minDistance = Infinity;
     for (let i = 0; i < iterations; i++) {
@@ -122,13 +122,52 @@ function App() {
     setTempPath(undefined);
   }
 
+  const hillClimbing = async () => {
+    const length = map.cities.length;
+    let currentPath = createPath(length, map.cities);
+    let distance = currentPath.distance;
+
+    setPath(currentPath);
+    for (let i = 0; i < iterations; i++) {
+      let copyCurrentPath = Object.assign({}, currentPath);
+      let isLocalMinimum = true;
+      for (let m = 0; m < length - 1; m++) {
+        for (let n = m + 1; n < length; n++) {
+          let editedPath = copyCurrentPath.path.slice();
+          let temp = editedPath[m];
+          editedPath[m] = editedPath[n];
+          editedPath[n] = temp;
+          let suspectPath = createPath(length, map.cities, editedPath);
+          setTempPath(suspectPath);
+          if (suspectPath.distance <= currentPath.distance) {
+            isLocalMinimum = false;
+            currentPath = suspectPath;
+            setPath(currentPath);
+          }
+          if ((m + n) % (cities + Math.floor(Math.random() * 10)) == 0) // just for visualization purposes
+            await wait(0.001);
+        }
+        let history = distanceHistory;
+        history[i] = currentPath.distance;
+        setDistanceHistory(history);
+      }
+
+      if (isLocalMinimum) {
+        break;
+      }
+    }
+    setTempPath(undefined);
+  }
+
   const Run = (algo, iterations, map) => {
     document.getElementById("run").style.display = "none";
     document.getElementById("reset").style.display = "inline";
     if (algo == "random") {
-      randomSolver(map, iterations);
+      randomSolver();
     } else if (algo == "greedy") {
-      greedySolver(map);
+      greedySolver();
+    } else if (algo == "hill-climbing") {
+      hillClimbing();
     }
   }
 
