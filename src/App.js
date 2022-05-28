@@ -48,6 +48,10 @@ function App() {
     document.getElementById("reset").style.display = "none";
   }
 
+  useEffect(() => {
+    setNewCities(cities);
+  }, [cities])
+
   const Reset = () => {
     setPath(undefined);
     setTempPath(undefined);
@@ -118,13 +122,13 @@ function App() {
     setTempPath(undefined);
   }
 
-  const Run = async (algo, iterations, map) => {
+  const Run = (algo, iterations, map) => {
     document.getElementById("run").style.display = "none";
     document.getElementById("reset").style.display = "inline";
     if (algo == "random") {
-      await randomSolver(map, iterations);
+      randomSolver(map, iterations);
     } else if (algo == "greedy") {
-      await greedySolver(map);
+      greedySolver(map);
     }
   }
 

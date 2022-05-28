@@ -24,7 +24,6 @@ function Options(props) {
                     </Select>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Button id="create" onClick={() => setNewCities(cities)} variant="contained" size="small">Generate</Button>
                     <Button id="run" onClick={() => run(algo, iterations, map)} variant="contained" size="small">Run</Button>
                     <Button id="reset" onClick={() => reset()} variant="contained" size="small">Reset</Button>
                 </Grid>
