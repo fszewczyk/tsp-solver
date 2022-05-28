@@ -20,12 +20,18 @@ function Chart(props) {
         ]
     }
 
+    let visGrid = document.getElementById("visual-grid");
+    let gridWidth = 400;
+    if (visGrid != null) {
+        gridWidth = visGrid.offsetWidth + 20;
+    }
+
     let layout = {
-        width: 400,
+        width: gridWidth,
         height: 200,
         margin: {
             l: 50,
-            t: 20,
+            t: 30,
             b: 40,
         },
         xaxis: {
@@ -39,7 +45,7 @@ function Chart(props) {
             color: 'white',
             showgrid: false,
             title: "Shortest path",
-            rangemode: 'nonegative',
+            rangemode: 'nonnegative',
             fixedrange: true
         },
         paper_bgcolor: 'rgba(0,0,0,0)',

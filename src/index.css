@@ -33,7 +33,7 @@ canvas{
 }
 
 #create, #run, #reset{
-  height: 4.2em;
+  height: 3.7em;
   margin-left: 0.5em;
 }
 
@@ -43,4 +43,16 @@ canvas{
 
 #reset{
   display: none;
+}
+
+@media only screen and (max-width: 900px) {
+  #run, #reset{
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 901px) {
+  #run-mobile, #reset-mobile{
+    display: none !important;
+  }
 }

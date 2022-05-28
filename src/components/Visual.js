@@ -4,6 +4,11 @@ function Visual(props) {
     const canvasRef = useRef(null)
     const cityRadius = 7;
 
+    let visGrid = document.getElementById("visual-grid");
+    if (visGrid != null && document.getElementById("visualization").width != visGrid.offsetWidth - 15) {
+        document.getElementById("visualization").width = visGrid.offsetWidth - 15;
+    }
+
     const draw = (ctx, map, path, tempPath) => {
         ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
         ctx.fillStyle = '#fff'
@@ -60,7 +65,7 @@ function Visual(props) {
     }, [draw])
 
     return (
-        <canvas ref={canvasRef} width={400} height={500}>
+        <canvas ref={canvasRef} height={500} id="visualization">
         </canvas>
     )
 }

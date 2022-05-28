@@ -46,6 +46,8 @@ function App() {
     setMap(createCities(amount));
     document.getElementById("run").style.display = "inline";
     document.getElementById("reset").style.display = "none";
+    document.getElementById("run-mobile").style.display = "inline";
+    document.getElementById("reset-mobile").style.display = "none";
   }
 
   useEffect(() => {
@@ -58,6 +60,8 @@ function App() {
     setDistanceHistory(Array());
     document.getElementById("run").style.display = "inline";
     document.getElementById("reset").style.display = "none";
+    document.getElementById("run-mobile").style.display = "inline";
+    document.getElementById("reset-mobile").style.display = "none";
   }
 
   const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
@@ -159,9 +163,11 @@ function App() {
     setTempPath(undefined);
   }
 
-  const Run = (algo, iterations, map) => {
+  const Run = () => {
     document.getElementById("run").style.display = "none";
     document.getElementById("reset").style.display = "inline";
+    document.getElementById("run-mobile").style.display = "none";
+    document.getElementById("reset-mobile").style.display = "inline";
     if (algo == "random") {
       randomSolver();
     } else if (algo == "greedy") {
@@ -176,7 +182,7 @@ function App() {
       <Container maxWidth="md" className="center">
         <Box className="shadow">
           <Grid container spacing={2} padding={2}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} id="visual-grid">
               <Visual map={map} path={path} tempPath={tempPath} />
             </Grid>
             <Grid item xs={12} md={6}>
