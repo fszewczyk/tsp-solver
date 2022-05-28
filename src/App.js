@@ -179,9 +179,9 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="md" className="center">
-        <Box className="shadow">
-          <Grid container spacing={2} padding={2}>
+      <Container maxWidth="md" className="center" >
+        <Box className="shadow" marginBottom={2}>
+          <Grid container spacing={2} padding={2} paddingTop={0}>
             <Grid item xs={12} md={6} id="visual-grid">
               <Visual map={map} path={path} tempPath={tempPath} />
             </Grid>
@@ -192,7 +192,7 @@ function App() {
           </Grid>
         </Box>
       </Container>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }
 
