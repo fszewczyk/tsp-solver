@@ -54,6 +54,11 @@ function App() {
     setNewCities(cities);
   }, [cities])
 
+  useEffect(() => {
+    if (iterations > 300 && algo != 'simulated-annealing')
+      setIterations(300);
+  }, [algo])
+
   const Reset = () => {
     setPath(undefined);
     setTempPath(undefined);
@@ -206,6 +211,86 @@ function App() {
     setTempPath(undefined);
   }
 
+  const geneticAlgorithm = async () => {
+    const crossOver = (p1, p2, mutateChance) => {
+      let p1Path = p1.path.slice();
+      let p2Path = p2.path.slice();
+      let cutOff = Math.floor(Math.random() * p2Path.length);
+      let newPath = Array(p1Path.length).fill(-1);
+      for (let i = 0; i < cutOff; i++) {
+        newPath[i] = p1Path[i];
+      }
+      let idx = cutOff;
+      for (let i = 0; i < p2Path.length; i++) {
+        if (!newPath.includes(p2Path[i])) {
+          newPath[idx] = p2Path[i];
+          idx++;
+        }
+      }
+      if (Math.random() < mutateChance) {
+        let idx1 = Math.floor(Math.random() * cities);
+        let idx2;
+        do {
+          idx2 = Math.floor(Math.random() * cities);
+        } while (idx1 == idx2);
+        let temp = newPath[idx1];
+        newPath[idx1] = newPath[idx2];
+        newPath[idx2] = temp;
+      }
+      let offspring = createPath(cities, map.cities, newPath);
+      return offspring;
+    }
+
+
+    const length = cities;
+    // Population Initalization
+    const populationSize = length * 4;
+    let population = Array(populationSize);
+    let bestPath = undefined
+    for (let i = 0; i < populationSize; i++) {
+      let newPath = createPath(length, map.cities);
+      population[i] = newPath;
+      if (bestPath == undefined || bestPath.distance > newPath.distance) {
+        bestPath = newPath;
+        setPath(bestPath);
+      }
+      setTempPath(newPath);
+      if (i % 10 == 0)
+        await wait(1);
+    }
+    console.log(population);
+    // GA
+    for (let i = 0; i < iterations; i++) {
+      let sumDistances = 0;
+      // Sorting population
+      population = population.sort((a, b) => a.distance - b.distance);
+      let history = distanceHistory;
+      history[i] = population[0].distance;
+      setDistanceHistory(history);
+      setPath(population[0]);
+
+      // Offspring creation
+      let parents = population.slice(0, populationSize / 2);
+      let newPopulation = Array(populationSize);
+      for (let j = 0; j < parents.length / 2; j++) {
+        let offspring1 = crossOver(parents[j], parents[parents.length - j - 1], 0.2);
+        let offspring2 = crossOver(parents[parents.length - j - 1], parents[j], 0.2);
+        let offspring3 = crossOver(parents[j], parents[parents.length - j - 1], 0.2);
+        let offspring4 = crossOver(parents[parents.length - j - 1], parents[j], 0.2);
+        newPopulation[j * 4] = offspring1;
+        newPopulation[j * 4 + 1] = offspring2;
+        newPopulation[j * 4 + 2] = offspring3;
+        newPopulation[j * 4 + 3] = offspring4;
+        if (i % 5 == 0) {
+          setTempPath(offspring1);
+        }
+      }
+      await wait(5);
+      population = newPopulation;
+    }
+    setTempPath(undefined);
+  }
+
   const Run = () => {
     document.getElementById("run").style.display = "none";
     document.getElementById("reset").style.display = "inline";
@@ -219,6 +304,8 @@ function App() {
       hillClimbing();
     } else if (algo == "simulated-annealing") {
       simulatedAnnealing();
+    } else if (algo == "genetic") {
+      geneticAlgorithm();
     }
   }
 

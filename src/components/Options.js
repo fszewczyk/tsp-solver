@@ -6,8 +6,6 @@ function Options(props) {
     let maxIterations = 300;
     if (algo == "simulated-annealing")
         maxIterations = 1500;
-    else if (iterations > 300)
-        setIterations(300);
     return (
         <>
             <Grid item xs={12} md={6} sx={{ display: { sm: 'block', md: 'none' }, marginBottom: "1em" }}>
@@ -29,7 +27,7 @@ function Options(props) {
                         <MenuItem value="greedy">Greedy</MenuItem>
                         <MenuItem value="hill-climbing">Hill climbing</MenuItem>
                         <MenuItem value="simulated-annealing">Simulated Annealing</MenuItem>
-                        <MenuItem disabled value="genetic">Genetic</MenuItem>
+                        <MenuItem value="genetic">Genetic</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ display: { sm: 'none', md: 'block' } }}>

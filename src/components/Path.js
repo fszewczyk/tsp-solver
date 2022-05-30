@@ -26,6 +26,7 @@ export class Path {
             this.distance += d;
         }
         this.distance += distance(cities[this.path[0]], cities[this.path[this.length - 1]]);
+        this.fitness = 0;
     }
 
 }
