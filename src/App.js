@@ -121,7 +121,7 @@ function App() {
       setDistanceHistory(history);
 
       setTempPath(path);
-      await wait(10)
+      await wait(4)
     }
     setTempPath(undefined);
   }
@@ -129,7 +129,6 @@ function App() {
   const hillClimbing = async () => {
     const length = map.cities.length;
     let currentPath = createPath(length, map.cities);
-    let distance = currentPath.distance;
 
     setPath(currentPath);
     for (let i = 0; i < iterations; i++) {
@@ -163,6 +162,50 @@ function App() {
     setTempPath(undefined);
   }
 
+  const simulatedAnnealing = async () => {
+    const acceptProbability = (T) => {
+      return 1 / T;
+    }
+
+    const length = map.cities.length;
+    let currentPath = createPath(length, map.cities);
+    let histDistance = currentPath.distance;
+
+    setPath(currentPath);
+    let T;
+    for (let i = 0; i < iterations; i++) {
+      let idx1 = Math.floor(Math.random() * cities);
+      let idx2;
+      do {
+        idx2 = Math.floor(Math.random() * cities);
+      } while (idx1 == idx2);
+
+      let editedPath = currentPath.path.slice();
+      let temp = editedPath[idx1];
+      editedPath[idx1] = editedPath[idx2];
+      editedPath[idx2] = temp;
+      editedPath = createPath(length, map.cities, editedPath);
+      setTempPath(editedPath);
+
+      if (editedPath.distance < currentPath.distance) {
+        currentPath = editedPath;
+        histDistance = currentPath.distance;
+        setPath(currentPath);
+      } else if (Math.random() < acceptProbability(i)) {
+        histDistance = currentPath.distance;
+        currentPath = editedPath;
+        setPath(currentPath);
+      }
+      let history = distanceHistory;
+      history[i] = histDistance;
+      setDistanceHistory(history);
+
+      if (i % 4 == 0)
+        await wait(1);
+    }
+    setTempPath(undefined);
+  }
+
   const Run = () => {
     document.getElementById("run").style.display = "none";
     document.getElementById("reset").style.display = "inline";
@@ -174,6 +217,8 @@ function App() {
       greedySolver();
     } else if (algo == "hill-climbing") {
       hillClimbing();
+    } else if (algo == "simulated-annealing") {
+      simulatedAnnealing();
     }
   }
 

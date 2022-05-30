@@ -39,6 +39,12 @@ function Visual(props) {
                 ctx.lineTo(x, y);
                 ctx.stroke();
             }
+            let i = 0;
+            let x = map.cities[tempPath.path[i]][0] * (ctx.canvas.clientWidth - cityRadius * 2) + cityRadius;
+            let y = map.cities[tempPath.path[i]][1] * (ctx.canvas.clientHeight - cityRadius * 2) + cityRadius;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
         }
         if (map != undefined && path != undefined && path.path != undefined) {
             ctx.moveTo(map.cities[0][0], map.cities[0][1]);
@@ -55,6 +61,12 @@ function Visual(props) {
                 ctx.lineTo(x, y);
                 ctx.stroke();
             }
+            let i = 0;
+            let x = map.cities[path.path[i]][0] * (ctx.canvas.clientWidth - cityRadius * 2) + cityRadius;
+            let y = map.cities[path.path[i]][1] * (ctx.canvas.clientHeight - cityRadius * 2) + cityRadius;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
         }
     }
 

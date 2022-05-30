@@ -25,6 +25,7 @@ export class Path {
             let d = distance(cities[this.path[i]], cities[this.path[i - 1]]);
             this.distance += d;
         }
+        this.distance += distance(cities[this.path[0]], cities[this.path[this.length - 1]]);
     }
 
 }
