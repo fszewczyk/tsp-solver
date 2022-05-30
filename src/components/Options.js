@@ -16,7 +16,7 @@ function Options(props) {
                 TSP Solver
             </Typography>
             <Typography>Number of cities: {cities}</Typography>
-            <Slider aria-label="Cities" valueLabelDisplay="off" value={cities} min={3} max={25} onChange={(e, v) => setCities(v)} />
+            <Slider aria-label="Cities" valueLabelDisplay="off" value={cities} min={3} max={40} onChange={(e, v) => setCities(v)} />
             <Typography>Number of iterations: {iterations}</Typography>
             <Slider disabled={algo == "greedy" || algo == "hill-climbing"} aria-label="Iterations" valueLabelDisplay="off" value={iterations} min={5} max={maxIterations} onChange={(e, v) => setIterations(v)} />
             <Typography>Select algorithm</Typography>

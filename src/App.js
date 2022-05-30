@@ -152,8 +152,8 @@ function App() {
             currentPath = suspectPath;
             setPath(currentPath);
           }
-          if ((m + n) % (cities + Math.floor(Math.random() * 10)) == 0) // just for visualization purposes
-            await wait(0.001);
+          if ((m + n) % (cities + 5 + Math.floor(Math.random() * 10)) == 0) // just for visualization purposes
+            await wait(1);
         }
         let history = distanceHistory;
         history[i] = currentPath.distance;
