@@ -1,9 +1,10 @@
+import { Grid, Typography } from '@mui/material';
 import React from 'react'
 import { useState } from 'react';
 import Plot from 'react-plotly.js';
 
 function Chart(props) {
-    const { history } = props;
+    const { history, stats } = props;
 
     let [lastFirst, setLastFirst] = useState();
 
@@ -53,11 +54,21 @@ function Chart(props) {
     };
 
     return (
-        <Plot
-            id="plot"
-            data={data}
-            layout={layout}
-        />
+        <>
+            <Plot
+                id="plot"
+                data={data}
+                layout={layout}
+            />
+            <Grid container marginTop={2}>
+                <Grid item xs={12} md={6} textAlign="center">
+                    Visited paths: {stats['visited']}
+                </Grid>
+                <Grid item xs={12} md={6} textAlign="center">
+                    Shortest path: {stats['shortestPath'] == undefined ? "-" : stats['shortestPath'].toFixed(2)}
+                </Grid>
+            </Grid>
+        </>
     )
 }
 

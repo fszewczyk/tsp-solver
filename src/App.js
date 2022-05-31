@@ -38,6 +38,7 @@ function App() {
   let [path, setPath] = useState();
   let [tempPath, setTempPath] = useState();
   let [distanceHistory, setDistanceHistory] = useState(Array());
+  let [stats, setStats] = useState({ visited: 0, shortestPath: undefined })
 
   const setNewCities = (amount) => {
     setPath(undefined);
@@ -52,17 +53,24 @@ function App() {
 
   useEffect(() => {
     setNewCities(cities);
+    Reset();
   }, [cities])
+
+  useEffect(() => {
+    Reset()
+  }, [iterations])
 
   useEffect(() => {
     if (iterations > 300 && algo != 'simulated-annealing')
       setIterations(300);
+    Reset();
   }, [algo])
 
   const Reset = () => {
     setPath(undefined);
     setTempPath(undefined);
     setDistanceHistory(Array());
+    setStats({ visited: 0, shortestPath: undefined });
     document.getElementById("run").style.display = "inline";
     document.getElementById("reset").style.display = "none";
     document.getElementById("run-mobile").style.display = "inline";
@@ -105,6 +113,10 @@ function App() {
       let history = distanceHistory;
       history[i] = minDistance;
       setDistanceHistory(history);
+      let s = stats;
+      s['visited'] += 1;
+      s['shortestPath'] = minDistance;
+      setStats(s);
 
       await wait(60);
     }
@@ -126,6 +138,10 @@ function App() {
       setDistanceHistory(history);
 
       setTempPath(path);
+      let s = stats;
+      s['visited'] += 1;
+      s['shortestPath'] = minDistance;
+      setStats(s);
       await wait(4)
     }
     setTempPath(undefined);
@@ -152,9 +168,15 @@ function App() {
             currentPath = suspectPath;
             setPath(currentPath);
           }
+          let s = stats;
+          s['visited'] += 1;
+          setStats(s);
           if ((m + n) % (cities + 5 + Math.floor(Math.random() * 10)) == 0) // just for visualization purposes
             await wait(1);
         }
+        let s = stats;
+        s['shortestPath'] = currentPath.distance;
+        setStats(s);
         let history = distanceHistory;
         history[i] = currentPath.distance;
         setDistanceHistory(history);
@@ -175,6 +197,7 @@ function App() {
     const length = map.cities.length;
     let currentPath = createPath(length, map.cities);
     let histDistance = currentPath.distance;
+    let minDistance = Math.Infinity;
 
     setPath(currentPath);
     let T;
@@ -195,6 +218,7 @@ function App() {
       if (editedPath.distance < currentPath.distance) {
         currentPath = editedPath;
         histDistance = currentPath.distance;
+        minDistance = currentPath.distance;
         setPath(currentPath);
       } else if (Math.random() < acceptProbability(i)) {
         histDistance = currentPath.distance;
@@ -204,6 +228,11 @@ function App() {
       let history = distanceHistory;
       history[i] = histDistance;
       setDistanceHistory(history);
+
+      let s = stats;
+      s['visited'] += 1;
+      s['shortestPath'] = minDistance;
+      setStats(s);
 
       if (i % 4 == 0)
         await wait(1);
@@ -247,6 +276,7 @@ function App() {
     const populationSize = length * 4;
     let population = Array(populationSize);
     let bestPath = undefined
+    let minDistance = Infinity;
     for (let i = 0; i < populationSize; i++) {
       let newPath = createPath(length, map.cities);
       population[i] = newPath;
@@ -255,10 +285,16 @@ function App() {
         setPath(bestPath);
       }
       setTempPath(newPath);
+      let s = stats;
+      s['visited'] += 1;
+      if (bestPath.distance < minDistance) {
+        minDistance = bestPath.distance;
+        s['shortestPath'] = minDistance;
+      }
+      setStats(s);
       if (i % 10 == 0)
         await wait(1);
     }
-    console.log(population);
     // GA
     for (let i = 0; i < iterations; i++) {
       let sumDistances = 0;
@@ -268,6 +304,10 @@ function App() {
       history[i] = population[0].distance;
       setDistanceHistory(history);
       setPath(population[0]);
+
+      let s = stats;
+      s['shortestPath'] = population[0].distance;
+      setStats(s);
 
       // Offspring creation
       let parents = population.slice(0, populationSize / 2);
@@ -281,6 +321,9 @@ function App() {
         newPopulation[j * 4 + 1] = offspring2;
         newPopulation[j * 4 + 2] = offspring3;
         newPopulation[j * 4 + 3] = offspring4;
+        let s = stats;
+        s['visited'] += 4;
+        setStats(s);
         if (i % 5 == 0) {
           setTempPath(offspring1);
         }
@@ -319,7 +362,7 @@ function App() {
             </Grid>
             <Grid item xs={12} md={6}>
               <Options map={map} setMap={setMap} cities={cities} setCities={setCities} setNewCities={setNewCities} iterations={iterations} setIterations={setIterations} algo={algo} setAlgo={setAlgo} run={Run} reset={Reset} />
-              <Chart history={distanceHistory} />
+              <Chart history={distanceHistory} stats={stats} />
             </Grid>
           </Grid>
         </Box>
