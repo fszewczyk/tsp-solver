@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, FormControl, Grid, InputLabel, MenuItem, Select, Slider, Typography } from '@mui/material'
+import GitHubIcon from '@mui/icons-material/GitHub';
 import React, { useState } from 'react'
 
 function Options(props) {
@@ -13,7 +14,18 @@ function Options(props) {
                 <Button id="reset-mobile" onClick={() => reset()} variant="contained" size="large" fullWidth>Reset</Button>
             </Grid>
             <Typography variant='h3' align='center'>
-                TSP Solver
+                <Grid container>
+                    <Grid item xs={10}>
+                        <Typography variant='h3' align='left'>
+                            TSP Solver
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <a href="https://github.com/fszewczyk/tsp-solver" target="_blank">
+                            <GitHubIcon fontSize="large" color="primary" />
+                        </a>
+                    </Grid>
+                </Grid>
             </Typography>
             <Typography>Number of cities: {cities}</Typography>
             <Slider aria-label="Cities" valueLabelDisplay="off" value={cities} min={3} max={40} onChange={(e, v) => setCities(v)} />
