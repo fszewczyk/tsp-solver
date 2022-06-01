@@ -39,6 +39,7 @@ function App() {
   let [tempPath, setTempPath] = useState();
   let [distanceHistory, setDistanceHistory] = useState(Array());
   let [stats, setStats] = useState({ visited: 0, shortestPath: undefined })
+  let [running, setRunning] = useState(false);
 
   const setNewCities = (amount) => {
     setPath(undefined);
@@ -71,6 +72,7 @@ function App() {
     setTempPath(undefined);
     setDistanceHistory(Array());
     setStats({ visited: 0, shortestPath: undefined });
+    setRunning(false);
     document.getElementById("run").style.display = "inline";
     document.getElementById("reset").style.display = "none";
     document.getElementById("run-mobile").style.display = "inline";
@@ -121,6 +123,7 @@ function App() {
       await wait(60);
     }
     setTempPath(undefined);
+    setRunning(false);
   }
 
   const randomSolver = async () => {
@@ -145,6 +148,7 @@ function App() {
       await wait(4)
     }
     setTempPath(undefined);
+    setRunning(false);
   }
 
   const hillClimbing = async () => {
@@ -187,6 +191,7 @@ function App() {
       }
     }
     setTempPath(undefined);
+    setRunning(false);
   }
 
   const simulatedAnnealing = async () => {
@@ -238,6 +243,7 @@ function App() {
         await wait(1);
     }
     setTempPath(undefined);
+    setRunning(false);
   }
 
   const geneticAlgorithm = async () => {
@@ -332,9 +338,11 @@ function App() {
       population = newPopulation;
     }
     setTempPath(undefined);
+    setRunning(false);
   }
 
   const Run = () => {
+    setRunning(true);
     document.getElementById("run").style.display = "none";
     document.getElementById("reset").style.display = "inline";
     document.getElementById("run-mobile").style.display = "none";
@@ -361,7 +369,7 @@ function App() {
               <Visual map={map} path={path} tempPath={tempPath} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Options map={map} setMap={setMap} cities={cities} setCities={setCities} setNewCities={setNewCities} iterations={iterations} setIterations={setIterations} algo={algo} setAlgo={setAlgo} run={Run} reset={Reset} />
+              <Options map={map} setMap={setMap} cities={cities} setCities={setCities} setNewCities={setNewCities} iterations={iterations} setIterations={setIterations} algo={algo} setAlgo={setAlgo} run={Run} reset={Reset} running={running} />
               <Chart history={distanceHistory} stats={stats} />
             </Grid>
           </Grid>
